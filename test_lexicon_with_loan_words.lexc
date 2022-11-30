@@ -1,0 +1,59 @@
+LEXICON Root
+	Nouns;
+
+LEXICON Nouns
+jana End; ! ja-na
+katosi End; ! ka-to-si
+kasku End; 
+naapurit End;
+myrsky  End;
+eversti End; ! e-vers-ti
+täi  End;
+epäily End;
+puusto End;
+avaruus End;
+avain   End;
+apu     End;
+säie    End;
+äsken   End;
+kauan   End;
+irstas  End;
+aorta   End;
+uoma    End;
+vihreää End;
+aatto   End;
+taloaan End;
+kissa End; ! kis-sa
+
+! loanwords
+prosentti End; ! pro-sent-ti
+trendi	End; ! tren-di
+flunssa End; ! fluns-sa
+klaava	End; ! klaa-va
+kraateri	End; ! kraa-te-ri
+stressi	End; ! stres-si
+sprinkleri	End; ! sprink-le-ri
+hamstraaja	End; ! hams-traa-ja
+maistraatti	End; ! mais-traat-ti
+abstrakti	End; ! abs-trak-ti
+
+
+! diftong weirdness
+pienen	End;
+karies	End;
+
+! others from http://www.ling.helsinki.fi/~fkarlsso/Automatic_hyphenation.PDF
+kiuas	End; ! kiu-as
+liueta   End; ! liu-eta
+liuote   End; ! liu-ote
+oieta 	End ; ! oi-eta
+
+
+
+0 End; 
+
+LEXICON End
+0:^  #; 
+
+
+END

@@ -1,0 +1,49 @@
+LEXICON Root
+	Nouns;
+
+LEXICON Nouns
+jana End;
+katosi End; 
+kasku End; 
+naapurit End;
+myrsky  End;
+eversti End;
+täi  End;
+epäily End;
+puusto End;
+avaruus End;
+avain   End;
+apu     End;
+säie    End;
+äsken   End;
+kauan   End;
+irstas  End;
+aorta   End;
+uoma    End;
+vihreää End;
+aatto   End;
+taloaan End;
+
+! loanwords
+prosentti End;
+trendi	End;
+flunssa End;
+klaava	End;
+kraateri	End;
+stressi	End;
+sprinkleri	End;
+kissa End;
+
+! diftong weirdness
+pienen	End;
+karies	End;
+
+! others
+kiuas	End;
+0 End; 
+
+LEXICON End
+0:^  #; 
+
+
+END

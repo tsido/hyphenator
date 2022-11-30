@@ -1,0 +1,94 @@
+clear stack
+
+# define a set of words to experiment with
+# this could be expanded so that we just define words as a regexp
+# in a way that resemble Finnish words
+read lexc test_lexicon_with_loan_words.lexc
+
+define Lexicon ;
+regex Lexicon ;
+
+define Vowel     a | e | i | o | u | y | ä | ö ;
+define LongVowel     a a | e e | i i | o o | u u | y y | ä ä | ö ö ;
+define Const 	b | c | d | f | g | h | j | k | l | m | n | p | q | r | s | t | v;
+
+define AnyLetter [Vowel |  Const];
+
+# In non-loan words 'd', 'j', 'v' cannot be at the end of a syllable
+define LastConst Const - [d | j v ];
+
+define Diftong 	a i | e i | o i | ä i | ö i | e y | ä y | ö y | a u | e u | o u | u i | y i | i u | i y | i e | u o | y ö ;
+
+
+# Syllable structure for native words
+define CV 	[ Const Vowel ];
+define CVC	[ Const Vowel LastConst ];
+define CVCC	[ Const Vowel Const LastConst ];
+define CVV	[ Const Vowel Vowel ];
+define CVVC	[ Const Vowel Vowel LastConst ];
+define V	[ Vowel ];
+define VC	[ Vowel LastConst ];
+define VCC 	[ Vowel Const LastConst ];
+define VV	[ LongVowel ];
+define VVC	[ Vowel Vowel LastConst ];
+
+# Syllable structures in loan words
+define CCV	[ Const Const Vowel ];
+define CCVC	[ Const Const Vowel Const ];
+define CCVCC	[ Const Const Vowel Const Const ];
+define CCVV	[ Const Const Vowel Vowel ];
+define CCVVC 	[ Const Const Vowel Vowel Const ];
+define sCCVC	[ 's' [Const Const Vowel Const ]];
+define sCCVCC	[ 's' [Const Const Vowel Const Const ]];
+
+
+define OpenSyllable [CV | CVV | V | VV ];  
+define ClosedSyllable [ CVC | CVCC | CVVC | VC | VCC | VVC ];
+
+define End [%- | %^];
+
+define AllSyllables [
+	# native word structures: 
+	CVVC |CV | CVC | CVCC | CVV | VC | VCC | VVC | VV | V | 
+	# loan word structures:
+	CCV | CCVC | CCVCC | CCVV | CCVVC | sCCVC | sCCVCC  
+];
+
+# Määritellään ensin kaksi perus sääntöä kielitoimiston ohjeiden mukaisesti:
+# http://www.kielitoimistonohjepankki.fi/haku/tavutus/ohje/153
+#
+# 1) Tavuraja on aina konsonantin ja vokaalin yhdistelmän edellä
+# 
+# AllSyllables estää ylimääräisen tavun lisäämisen sanan alkuun
+define syl [. .] -> %- || AllSyllables _ Const [ Vowel | Diftong ] ; 
+
+# 2) Tavuraja on sellaisten eri vokaalien välissä, jotka eivät muodosta diftongia
+define nonDiftongSplit a -> a %- || _ [e | o | y ] .o. # a-e, a-o, a-y
+		       e -> e %- || _ [a | o | y ] .o. # e-a, e-o, e-y
+		       i -> i %- || _ [a | o ] .o.     # i-a, i-o
+                       o -> o %- || _ [a | e ] .o.     # o-a, o-e
+                       u -> u %- || _ [a | e ] .o.    # u-a, u-e
+                       0 -> 0;              #
+# TODO the above rules do not catch all syllables, especially in loan words
+#
+
+
+
+#define syl   CVCC -> ... %- || _ AllSyllables .o. 
+#             CVC -> ... %- || _ AllSyllables .o.
+#             CVVC -> ... %- || _ AllSyllables .o. 
+#             CVV -> ... %- || _ AllSyllables .o.
+#             VVC -> ... %- || _ AllSyllables .o.
+#             VV -> ... %- || _ AllSyllables .o.
+#             V -> ... %- || _ AllSyllables .o.
+#             VCC -> ... %- || _ AllSyllables .o.
+#             VC -> ... %- || _ AllSyllables .o.
+#             CV -> ... %- || _ AllSyllables; 
+
+define cleanup %^ -> 0 ;
+
+regex Lexicon .o.
+        syl .o.
+        nonDiftongSplit .o.
+	cleanup
+;
