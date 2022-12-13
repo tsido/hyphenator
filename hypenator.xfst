@@ -5,7 +5,7 @@ clear stack
 # in a way that resemble Finnish words
 #
 # TODO: define a rule instead of using a lexicon
-read lexc test_lexicon_with_loan_words.lexc
+read lexc test_lexicon.lexc
 
 define Lexicon ;
 regex Lexicon ;
