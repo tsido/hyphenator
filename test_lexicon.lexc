@@ -7,6 +7,7 @@ katosi End;
 kasku End; 
 naapurit End;
 myrsky  End;
+naapurit End;
 eversti End;
 täi  End;
 epäily End;
@@ -25,6 +26,10 @@ aatto   End;
 taloaan End;
 
 ! loanwords
+hamstraaja End;
+hygienia End;
+abstrakti End;
+maistraatti End;
 prosentti End;
 trendi	End;
 flunssa End;
@@ -35,8 +40,13 @@ sprinkleri	End;
 kissa End;
 
 ! diftong weirdness
+kielien End;
 pienen	End;
+pienien End;
 karies	End;
+liueta End;
+liuote End;
+oieta End;
 
 ! others
 kiuas	End;

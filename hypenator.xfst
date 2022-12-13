@@ -43,10 +43,6 @@ define CCVVC 	[ Const Const Vowel Vowel Const ];
 define sCCVC	[ 's' [Const Const Vowel Const ]];
 define sCCVCC	[ 's' [Const Const Vowel Const Const ]];
 
-
-define OpenSyllable [CV | CVV | V | VV ];  
-define ClosedSyllable [ CVC | CVCC | CVVC | VC | VCC | VVC ];
-
 define End [%- | %^];
 
 define AllSyllables [
@@ -61,8 +57,10 @@ define AllSyllables [
 #
 # The two basic rules from Institute for the Languages of Finland:
 #
+# derived from:
 # http://www.kielitoimistonohjepankki.fi/haku/tavutus/ohje/153
-#
+###########################################################################
+##
 # Syllable border is always before a combination of consonant and a vowel
 #
 # 1) Tavuraja on aina konsonantin ja vokaalin yhdistelmän edellä
@@ -73,20 +71,46 @@ define syl [. .] -> %- || AllSyllables _ Const [ Vowel | Diphthong ] ;
 
 # Syllable border is between vowels that do not form a diphthong
 # 2) Tavuraja on sellaisten eri vokaalien välissä, jotka eivät muodosta diftongia
-define nonDiphthongSplit a -> a %- || _ [e | o | y ] .o. # a-e, a-o, a-y
-		       e -> e %- || _ [a | o | y ] .o. # e-a, e-o, e-y
-		       i -> i %- || _ [a | o ] .o.     # i-a, i-o
-                       o -> o %- || _ [a | e ] .o.     # o-a, o-e
-                       u -> u %- || _ [a | e ] .o.    # u-a, u-e
-                       0 -> 0;              #
+define nonDiphthongSplit a -> a %- || _ [e | o | y ] .o.   # a-e, a-o, a-y
+		       e -> e %- || _ [a | ä | o | y ] .o. # e-a, e-ä, e-o, e-y
+		       i -> i %- || _ [a | o ] .o.         # i-a, i-o
+                       o -> o %- || _ [a | e ] .o.         # o-a, o-e
+                       u -> u %- || _ [a | e ] .o.         # u-a, u-e
+                       ä -> ä %- || _ [ e ] .o.            # ä-e
+                       0 -> 0; # zero rule to NOT forget the final ';'
 
-# TODO the above rules do not catch all syllables, especially in loan words
+#############################################################################
 #
+# Additional rules
 #
+#############################################################################
+# Special cases for non-first diftongs, ie, uo, yö is not a diftong if they
+# are not the first syllable of the word
+#
+# There are two versions of the rule:
+#  - first for the 3rd or later syllables (e.g. kie-li-en)
+#  - second for the second syllable (e.g säi-e)
+#
+# Eg pie-ni-en, #
+define nonFirstDiphthonSplit i -> i %- || [%- AnyLetter+] _ e .o. # i-e
+                             i -> i %- || AllSyllables _ e .o.    # i-e
+                             u -> u %- || [%- AnyLetter+] _ o .o. # u-o
+                             u -> u %- || AllSyllables _ o .o.    # u-o
+                             y -> y %- || [%- AnyLetter+] _ ö .o. # y-ö
+                             y -> y %- || AllSyllables _ ö .o.    # y-ö
+                             0 -> 0; # zero rule to NOT forget the final ';'
+
+
+#############################################################################
+# 
+# Compose the rules together
+#
+##############################################################################
 define cleanup %^ -> 0 ;
 
 regex Lexicon .o.
         syl .o.
         nonDiphthongSplit .o.
+        nonFirstDiphthonSplit .o.
 	cleanup
 ;
