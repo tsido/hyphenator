@@ -4,7 +4,6 @@ clear stack
 # this could be expanded so that we just define words as a regexp
 # in a way that resemble Finnish words
 #
-# TODO: define a rule instead of using a lexicon
 read lexc test_lexicon.lexc
 
 define Lexicon ;
@@ -17,7 +16,7 @@ define Const 	b | c | d | f | g | h | j | k | l | m | n | p | q | r | s | t | v;
 define AnyLetter [Vowel |  Const];
 
 # In non-loan words 'd', 'j', 'v' cannot be at the end of a syllable
-define LastConst Const - [d | j v ];
+define LastConst Const - [d | j | v ];
 
 define Diphthong 	a i | e i | o i | ä i | ö i | e y | ä y | ö y | a u | e u | o u | u i | y i | i u | i y | i e | u o | y ö ;
 
@@ -47,7 +46,7 @@ define End [%- | %^];
 
 define AllSyllables [
 	# native word structures: 
-	CVVC |CV | CVC | CVCC | CVV | VC | VCC | VVC | VV | V | 
+	CVVC | CV | CVC | CVCC | CVV | VC | VCC | VVC | VV | V | 
 	# loan word structures:
 	CCV | CCVC | CCVCC | CCVV | CCVVC | sCCVC | sCCVCC  
 ];
@@ -100,6 +99,15 @@ define nonFirstDiphthonSplit i -> i %- || [%- AnyLetter+] _ e .o. # i-e
                              y -> y %- || AllSyllables _ ö .o.    # y-ö
                              0 -> 0; # zero rule to NOT forget the final ';'
 
+#
+# Some specific rules to match tricky cases for 1st and 2nd syllables in words like
+# hams-traa-ja, abs-trak-ti, eks-tra
+#
+define longSyllableSplit     [. .] -> %- || VCC _ AllSyllables .o.
+                             [. .] -> %- || CVC _ AllSyllables.o.
+                             [. .] -> %- || CVCC _ AllSyllables.o.
+                             0 -> 0; # zero rule to NOT forget the final ';'
+
 
 #############################################################################
 # 
@@ -108,9 +116,10 @@ define nonFirstDiphthonSplit i -> i %- || [%- AnyLetter+] _ e .o. # i-e
 ##############################################################################
 define cleanup %^ -> 0 ;
 
-regex Lexicon .o.
+regex Lexicon .o. 
         syl .o.
         nonDiphthongSplit .o.
         nonFirstDiphthonSplit .o.
+	longSyllableSplit .o.
 	cleanup
 ;
