@@ -113,7 +113,7 @@ define longSyllableSplit     [. .] -> %- || VCC _ AllSyllables .o.
 # Compose the rules together
 #
 ##############################################################################
-define cleanup %^ -> 0 ;
+define cleanup %^ -> 0 .o. %# -> %-;
 
 regex Word .o.
 # Rules:
