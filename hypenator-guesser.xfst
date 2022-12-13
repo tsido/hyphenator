@@ -4,7 +4,8 @@ define Vowel     a | e | i | o | u | y | ä | ö ;
 define LongVowel     a a | e e | i i | o o | u u | y y | ä ä | ö ö ;
 define Const 	b | c | d | f | g | h | j | k | l | m | n | p | q | r | s | t | v;
 
-define AnyLetter [Vowel |  Const];
+define Break %#;
+define AnyLetter [Vowel |  Const | Break];
 
 # Define words as any strings of letters so we can try out the hyphenator 
 # with any word
