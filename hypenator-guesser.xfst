@@ -1,13 +1,5 @@
 clear stack
 
-# define a set of words to experiment with
-# this could be expanded so that we just define words as a regexp
-# in a way that resemble Finnish words
-#
-read lexc test_lexicon.lexc
-
-define Lexicon ;
-
 define Vowel     a | e | i | o | u | y | ä | ö ;
 define LongVowel     a a | e e | i i | o o | u u | y y | ä ä | ö ö ;
 define Const 	b | c | d | f | g | h | j | k | l | m | n | p | q | r | s | t | v;
@@ -120,7 +112,7 @@ define longSyllableSplit     [. .] -> %- || VCC _ AllSyllables .o.
 ##############################################################################
 define cleanup %^ -> 0 ;
 
-regex Lexicon .o. 
+regex Word .o.
 # Rules:
         syl .o.
         nonDiphthongSplit .o.
