@@ -5,7 +5,8 @@ define LongVowel     a a | e e | i i | o o | u u | y y | ä ä | ö ö ;
 define Const 	b | c | d | f | g | h | j | k | l | m | n | p | q | r | s | t | v;
 
 define Break %#;
-define AnyLetter [Vowel |  Const | Break];
+define Hyp %-;
+define AnyLetter [Vowel |  Const | Hyp | Break];
 
 # Define words as any strings of letters so we can try out the hyphenator 
 # with any word
@@ -103,17 +104,21 @@ define nonFirstDiphthonSplit i -> i %- || [%- AnyLetter+] _ e .o. # i-e
 # hams-traa-ja, abs-trak-ti, eks-tra
 #
 define longSyllableSplit     [. .] -> %- || VCC _ AllSyllables .o.
-                             [. .] -> %- || CVC _ AllSyllables.o.
-                             [. .] -> %- || CVCC _ AllSyllables.o.
+                             [. .] -> %- || CVC _ AllSyllables .o.
+                             [. .] -> %- || CVCC _ AllSyllables .o.
                              0 -> 0; # zero rule to NOT forget the final ';'
 
+
+#############################################################################
+#Clean up rules
+#
+define cleanup %^ -> 0 .o. %# -> %-;
 
 #############################################################################
 # 
 # Compose the rules together
 #
 ##############################################################################
-define cleanup %^ -> 0 .o. %# -> %-;
 
 regex Word .o.
 # Rules:
