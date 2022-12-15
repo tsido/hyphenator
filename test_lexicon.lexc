@@ -19,13 +19,13 @@ säie    End;
 äsken   End;
 kauan   End;
 irstas  End;
-aorta   End;
 uoma    End;
 vihreää End;
 aatto   End;
 taloaan End;
 
 ! loanwords
+aortta   End;
 hamstraaja End;
 hygienia End;
 abstrakti End;
@@ -52,6 +52,7 @@ liueta End;
 liuote End;
 oieta End;
 vihkiytyä End;
+hauissa	End; ! Note: the hyphenation differs, depending if this is hauki or haku
 
 ! others
 kiuas	End;

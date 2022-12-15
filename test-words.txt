@@ -1,4 +1,4 @@
-a-or-ta
+a-ort-ta
 a-pu
 a-va-ruus
 a-vain
@@ -10,6 +10,8 @@ e-vers-ti
 eks-tra
 fluns-sa
 hams-traa-ja
+ha-uis-sa
+hau-is-sa
 hy-gi-e-ni-a
 irs-tas
 ja-na
@@ -44,3 +46,4 @@ uo-ma
 vih-kiy-ty-ä
 vih-re-ää
 äs-ken
+
